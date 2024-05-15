@@ -21,5 +21,14 @@ describe('Team Tets', () => {
     expect(status).to.be.equal(200);
     expect(body).to.deep.equal(teamsMock);
   });
+  it('should return a team by id', async function() {
+    const team = teamsMock[0];
+    sinon.stub(SequelizeTeamModel, 'findByPk').resolves(team as any);
+
+    const { status, body } = await chai.request(app).get(`/teams/${team.id}`);
+
+    expect(status).to.be.equal(200);
+    expect(body).to.deep.equal(team);
+  });
   afterEach(sinon.restore);
 });
