@@ -9,7 +9,7 @@ export default class UserController {
   async login(req: Request, res: Response) {
     const { email } = req.body;
     const serviceResponse = await this.userService.login(email);
-    if (serviceResponse.status === 'NOT_FOUND') {
+    if (serviceResponse.status === 'UNAUTHORIZED') {
       res.status(404).json(serviceResponse.data);
       return;
     }

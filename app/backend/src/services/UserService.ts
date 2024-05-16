@@ -12,7 +12,7 @@ export default class UserService {
   Promise<ServiceResponseToken | ServiceResponseError> {
     const dbData = await this.userModel.login(email);
     if (!dbData) {
-      return { status: 'NOT_FOUND', data: { message: 'User not found' } };
+      return { status: 'UNAUTHORIZED', data: { message: 'Invalid email or password' } };
     }
     const token = jwt.sign({ id: dbData.id, email: dbData.email }, jwtSecret, {
       expiresIn: '1h',
