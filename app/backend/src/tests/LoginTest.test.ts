@@ -24,8 +24,6 @@ describe('Login Test', () => {
     sinon.stub(SequelizeUserModel, 'findOne').resolves(dbData as any);
 
     const { status, body } = await chai.request(app).post('/login').send(user);
-    console.log(status, body);
-    
 
     expect(status).to.be.equal(200);
     expect(body).to.have.property('token');
@@ -67,7 +65,7 @@ describe('Login Test', () => {
     expect(body).to.have.property('message');
     expect(body.message).to.be.equal('All fields must be filled');
   });
-  it('should return a 400 status Email Invalid', async function() {
+  it('should return a 401 status Email Invalid', async function() {
     const user = {
       email: 'user@user.c',
       password: 'secret_user'
@@ -82,11 +80,11 @@ describe('Login Test', () => {
 
     const { status, body } = await chai.request(app).post('/login').send(user);
 
-    expect(status).to.be.equal(400);
+    expect(status).to.be.equal(401);
     expect(body).to.have.property('message');
-    expect(body.message).to.be.equal('Invalid email');
+    expect(body.message).to.be.equal('Invalid email or password');
   });
-  it('should return a 400 status Password Invalid', async function() {
+  it('should return a 401 status Password Invalid', async function() {
     const user = {
       email: 'user@user.com',
       password: 'secr'
@@ -101,9 +99,9 @@ describe('Login Test', () => {
 
     const { status, body } = await chai.request(app).post('/login').send(user);
 
-    expect(status).to.be.equal(400);
+    expect(status).to.be.equal(401);
     expect(body).to.have.property('message');
-    expect(body.message).to.be.equal('Password must be at least 6 characters');
+    expect(body.message).to.be.equal('Invalid email or password');
   });
   afterEach(sinon.restore);
 });
