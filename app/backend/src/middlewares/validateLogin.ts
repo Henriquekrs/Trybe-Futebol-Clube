@@ -16,7 +16,7 @@ const validateInputs: RequestHandler = (req, res, next) => {
     return;
   }
   if (password.length < 6) {
-    res.status(401).json({ message: 'Password must be at least 6 characters' });
+    res.status(401).json({ message: 'Invalid email or password' });
     return;
   }
   next();

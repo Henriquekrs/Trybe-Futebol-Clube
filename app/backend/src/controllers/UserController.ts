@@ -15,4 +15,10 @@ export default class UserController {
     }
     res.status(200).json(serviceResponse.data);
   }
+
+  async getRole(req: Request, res: Response) {
+    const { email } = req.cookies;
+    const serviceResponse = await this.userService.getRole(email);
+    res.status(200).json(serviceResponse.data);
+  }
 }

@@ -17,4 +17,9 @@ export type ServiceResponseToken = {
   data: { token: string }
 };
 
+export type ServiceResponseRole = {
+  status: 'SUCCESSFUL',
+  data: { role: string }
+};
+
 export type ServiceResponse<T> = ServiceResponseError | ServiceResponseSuccess<T>;
