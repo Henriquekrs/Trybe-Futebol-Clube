@@ -15,7 +15,6 @@ export default class MatchesModel implements IMatchesModel {
         },
       ],
     });
-    console.log(dbData[0]);
     return dbData;
   }
 }
