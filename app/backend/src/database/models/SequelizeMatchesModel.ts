@@ -21,6 +21,10 @@ InferCreationAttributes<SequelizeMatchesModel>> {
   declare awayTeamGoals: number;
 
   declare inProgress: boolean;
+
+  declare homeTeam?: SequelizeTeamModel;
+
+  declare awayTeam?: SequelizeTeamModel;
 }
 
 SequelizeMatchesModel.init({
@@ -72,5 +76,8 @@ SequelizeMatchesModel.init({
 
 SequelizeMatchesModel.belongsTo(SequelizeTeamModel, { as: 'homeTeam', foreignKey: 'homeTeamId' });
 SequelizeMatchesModel.belongsTo(SequelizeTeamModel, { as: 'awayTeam', foreignKey: 'awayTeamId' });
+
+SequelizeTeamModel.hasMany(SequelizeMatchesModel, { as: 'homeMatches', foreignKey: 'homeTeamId' });
+SequelizeTeamModel.hasMany(SequelizeMatchesModel, { as: 'awayMatches', foreignKey: 'awayTeamId' });
 
 export default SequelizeMatchesModel;

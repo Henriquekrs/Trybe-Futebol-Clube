@@ -20,17 +20,17 @@ export default {
             field: 'home_team_goals',
         },
         awayTeamId: {
-            type: DataTypes.DATE,
+            type: DataTypes.INTEGER,
             allowNull: false,
             field: 'away_team_id',
         },
         awayTeamGoals: {
-            type: DataTypes.TIME,
+            type: DataTypes.INTEGER,
             allowNull: false,
             field: 'away_team_goals',
         },
         inProgress: {
-            type: DataTypes.STRING,
+            type: DataTypes.BOOLEAN,
             allowNull: false,
             field: 'in_progress',
         },
