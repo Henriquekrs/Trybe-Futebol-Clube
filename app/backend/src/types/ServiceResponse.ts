@@ -22,4 +22,9 @@ export type ServiceResponseRole = {
   data: { role: string }
 };
 
+export type ServiceResponseFinished = {
+  status: 'SUCCESSFUL',
+  data: { message: string }
+};
+
 export type ServiceResponse<T> = ServiceResponseError | ServiceResponseSuccess<T>;

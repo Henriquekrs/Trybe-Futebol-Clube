@@ -17,4 +17,23 @@ export default class MatchesModel implements IMatchesModel {
     });
     return dbData;
   }
+
+  async getById(id: number): Promise<SequelizeMatchesModel | null> {
+    const dbData = await this.model.findByPk(id);
+    if (!dbData) {
+      return null;
+    }
+    return dbData;
+  }
+
+  async finishMatch(matchId: number): Promise<void> {
+    await this.model.update({ inProgress: false }, { where: { id: matchId } });
+  }
+
+  async updateMatch(id: number, homeTeamGoals: number, awayTeamGoals: number): Promise<void> {
+    await this.model.update(
+      { homeTeamGoals, awayTeamGoals },
+      { where: { id } },
+    );
+  }
 }
