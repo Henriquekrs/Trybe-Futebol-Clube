@@ -6,7 +6,13 @@ import chaiHttp = require('chai-http');
 import { app } from '../app';
 import * as jwt from 'jsonwebtoken';
 import SequelizeMatchesModel from '../database/models/SequelizeMatchesModel';
-import { arrayMatchesMock, matchesInProgressMock, matchesMockFalse, matchesMockTrue } from './mocks/matchesMock';
+import {
+  arrayMatchesMock,
+  createdMatchesMock,
+  matchesInProgressMock,
+  matchesMockFalse,
+  matchesMockTrue
+} from './mocks/matchesMock';
 import jwtSecret from '../config/jwtConfig';
 
 chai.use(chaiHttp);
@@ -69,6 +75,58 @@ describe('Matches test', () => {
     expect(status).to.be.equal(200);
     expect(body).to.have.property('message');
     expect(body.message).to.be.equal('Goool');
+  });
+  it('should return status 201 created matches', async function() {
+    const match = {
+      "homeTeamId": 16, // O valor deve ser o id do time
+      "awayTeamId": 8, // O valor deve ser o id do time
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2
+    }
+
+    sinon.stub(SequelizeMatchesModel, 'create').resolves(createdMatchesMock as any);
+
+    const { status, body } = await chai.request(app)
+    .post('/matches')
+    .set('Authorization', `Bearer ${validToken}`)
+    .send(match);
+
+    expect(status).to.be.equal(201);
+    expect(body).to.be.eql(createdMatchesMock);
+  });
+  it('should return status 422 and message It is not possible to create a match with two equal teams', async function() {
+    const match = {
+      "homeTeamId": 16,
+      "awayTeamId": 16,
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2
+    }
+
+    const { status, body } = await chai.request(app)
+    .post('/matches')
+    .set('Authorization', `Bearer ${validToken}`)
+    .send(match);
+
+    expect(status).to.be.equal(422);
+    expect(body).to.have.property('message');
+    expect(body.message).to.be.equal('It is not possible to create a match with two equal teams');
+  });
+  it('should return status 404 and message There is no team with such id!', async function() {
+    const match = {
+      "homeTeamId": 16,
+      "awayTeamId": 100,
+      "homeTeamGoals": 2,
+      "awayTeamGoals": 2
+    }
+
+    const { status, body } = await chai.request(app)
+    .post('/matches')
+    .set('Authorization', `Bearer ${validToken}`)
+    .send(match);
+
+    expect(status).to.be.equal(404);
+    expect(body).to.have.property('message');
+    expect(body.message).to.be.equal('There is no team with such id!');
   });
 afterEach(sinon.restore);
 });
