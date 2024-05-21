@@ -2,6 +2,7 @@ import MatchesModel from '../models/MatchesModel';
 import { IMatchesModel } from '../Interfaces/IMatchesModel';
 import {
   ServiceResponse,
+  ServiceResponseCreated,
   ServiceResponseError,
   ServiceResponseFinished,
 } from '../types/ServiceResponse';
@@ -51,5 +52,15 @@ export default class MatchesService {
 
     await this.matchesModel.updateMatch(id, homeTeamGoals, awayTeamGoals);
     return { status: 'SUCCESSFUL', data: { message: 'Goool' } };
+  }
+
+  async createMatches(matchData: {
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  }): Promise<ServiceResponseCreated> {
+    const match = await this.matchesModel.createMatch(matchData);
+    return { status: 'SUCCESSFUL', data: match };
   }
 }

@@ -2,6 +2,15 @@ export type ServiceMessage = { message: string };
 
 type ServiceResponseErrorType = 'BAD_REQUEST' | 'UNAUTHORIZED' | 'NOT_FOUND' | 'CONFLICT';
 
+export type CreatedMatch = {
+  id: number,
+  homeTeamId: number,
+  homeTeamGoals: number,
+  awayTeamId: number,
+  awayTeamGoals: number,
+  inProgress: boolean,
+};
+
 export type ServiceResponseError = {
   status: ServiceResponseErrorType,
   data: ServiceMessage
@@ -25,6 +34,11 @@ export type ServiceResponseRole = {
 export type ServiceResponseFinished = {
   status: 'SUCCESSFUL',
   data: { message: string }
+};
+
+export type ServiceResponseCreated = {
+  status: 'SUCCESSFUL',
+  data: CreatedMatch
 };
 
 export type ServiceResponse<T> = ServiceResponseError | ServiceResponseSuccess<T>;

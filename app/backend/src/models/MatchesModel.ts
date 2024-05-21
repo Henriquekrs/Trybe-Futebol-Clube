@@ -1,3 +1,4 @@
+import { CreatedMatch } from '../types/ServiceResponse';
 import SequelizeMatchesModel from '../database/models/SequelizeMatchesModel';
 import { IMatchesModel } from '../Interfaces/IMatchesModel';
 
@@ -35,5 +36,18 @@ export default class MatchesModel implements IMatchesModel {
       { homeTeamGoals, awayTeamGoals },
       { where: { id } },
     );
+  }
+
+  async createMatch(matchData: {
+    homeTeamId: number,
+    awayTeamId: number,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  }): Promise<CreatedMatch> {
+    const dbData = await this.model.create({
+      ...matchData,
+      inProgress: true,
+    });
+    return dbData;
   }
 }

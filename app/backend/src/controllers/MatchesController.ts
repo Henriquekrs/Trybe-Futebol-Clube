@@ -43,4 +43,14 @@ export default class MatchesController {
       res.status(500).json({ message: 'Erro ao atualizar partida' });
     }
   }
+
+  async createMatches(req: Request, res: Response) {
+    try {
+      const matchData = req.body;
+      const serviceResponse = await this.matchesService.createMatches(matchData);
+      return res.status(201).json(serviceResponse.data);
+    } catch (error) {
+      res.status(500).json({ message: 'Erro ao criar partidas' });
+    }
+  }
 }
