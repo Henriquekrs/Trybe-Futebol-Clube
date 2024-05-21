@@ -24,6 +24,7 @@ class App {
 
   private routes(): void {
     this.app.use(router);
+    this.app.all('*', (_req, res) => res.status(501).json({ message: 'Not implemented' }));
   }
 
   private config():void {

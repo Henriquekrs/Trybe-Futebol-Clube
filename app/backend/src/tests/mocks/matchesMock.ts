@@ -1,17 +1,63 @@
-export const matchesMock =   {
-    "id": 1,
+export const matchesMockTrue =   {
+  "id": 48,
+  "homeTeamId": 13,
+  "homeTeamGoals": 1,
+  "awayTeamId": 2,
+  "awayTeamGoals": 1,
+  "inProgress": true,
+  "homeTeam": {
+    "teamName": "Real Brasília"
+  },
+  "awayTeam": {
+    "teamName": "Bahia"
+  }
+};
+
+export const matchesMockFalse =   {
+  "id": 48,
+  "homeTeamId": 13,
+  "homeTeamGoals": 1,
+  "awayTeamId": 2,
+  "awayTeamGoals": 1,
+  "inProgress": false,
+  "homeTeam": {
+    "teamName": "Real Brasília"
+  },
+  "awayTeam": {
+    "teamName": "Bahia"
+  }
+};
+
+export const matchesInProgressMock = [
+  {
+    "id": 41,
     "homeTeamId": 16,
-    "homeTeamGoals": 1,
-    "awayTeamId": 8,
-    "awayTeamGoals": 1,
-    "inProgress": false,
+    "homeTeamGoals": 2,
+    "awayTeamId": 9,
+    "awayTeamGoals": 0,
+    "inProgress": true,
     "homeTeam": {
       "teamName": "São Paulo"
     },
     "awayTeam": {
-      "teamName": "Grêmio"
+      "teamName": "Internacional"
     }
-  };
+  },
+  {
+    "id": 42,
+    "homeTeamId": 6,
+    "homeTeamGoals": 1,
+    "awayTeamId": 1,
+    "awayTeamGoals": 0,
+    "inProgress": true,
+    "homeTeam": {
+      "teamName": "Ferroviária"
+    },
+    "awayTeam": {
+      "teamName": "Avaí/Kindermann"
+    }
+  }
+];
 
 export const arrayMatchesMock = [
   {
