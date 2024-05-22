@@ -11,9 +11,11 @@ import {
   resultGoalsOwn,
   resultGoalsBalance,
   resEff,
-  resultWins,
   sortLeaderboard,
+  resultWins,
 } from '../utils/leaderboarderFunctions';
+import { ILeaderboard } from '../Interfaces/ILeaderBoardService';
+import { ServiceResponseSuccess } from '../types/ServiceResponse';
 
 export default class LeaderboardService {
   constructor(
@@ -21,26 +23,26 @@ export default class LeaderboardService {
     private teamModel: IteamModel = new TeamModel(),
   ) { }
 
-  async getLeaderboard() {
+  async getLeaderboard(isHome: boolean): Promise<ServiceResponseSuccess<ILeaderboard[]>> {
     const dbMatches = await this.matchesModel.getAllMatches();
     const dbTeams = await this.teamModel.getAll();
     const finishMatches = dbMatches.filter((match) => match.inProgress === false);
 
-    const homeMatches = dbTeams.map((team) => ({
+    const leaderboard = dbTeams.map((team) => ({
       name: team.teamName,
-      totalPoints: (resultPoints(team.id, finishMatches)),
-      totalGames: resultGames(team.id, finishMatches),
-      totalVictories: resultWins(team.id, finishMatches),
-      totalDraws: resultDraws(team.id, finishMatches),
-      totalLosses: resultLosses(team.id, finishMatches),
-      goalsFavor: resultGoalsFavor(team.id, finishMatches),
-      goalsOwn: resultGoalsOwn(team.id, finishMatches),
-      goalsBalance: resultGoalsBalance(team.id, finishMatches),
-      efficiency: resEff(team.id, finishMatches),
+      totalPoints: resultPoints(team.id, finishMatches, isHome),
+      totalGames: resultGames(team.id, finishMatches, isHome),
+      totalVictories: resultWins(team.id, finishMatches, isHome),
+      totalDraws: resultDraws(team.id, finishMatches, isHome),
+      totalLosses: resultLosses(team.id, finishMatches, isHome),
+      goalsFavor: resultGoalsFavor(team.id, finishMatches, isHome),
+      goalsOwn: resultGoalsOwn(team.id, finishMatches, isHome),
+      goalsBalance: resultGoalsBalance(team.id, finishMatches, isHome),
+      efficiency: resEff(team.id, finishMatches, isHome),
     }));
 
-    const order = sortLeaderboard(homeMatches);
+    const orderedLeaderboard = sortLeaderboard(leaderboard);
 
-    return { status: 'SUCCESSFUL', data: order };
+    return { status: 'SUCCESSFUL', data: orderedLeaderboard };
   }
 }
