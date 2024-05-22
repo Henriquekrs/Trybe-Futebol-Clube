@@ -3,13 +3,16 @@ import MatchesModel from '../models/MatchesModel';
 import { IteamModel } from '../Interfaces/ITeamModel';
 import { IMatchesModel } from '../Interfaces/IMatchesModel';
 import {
-  resultTotalGames,
+  resultGames,
   resultPoints,
   resultDraws,
   resultLosses,
   resultGoalsFavor,
   resultGoalsOwn,
-  orderLeaderboard,
+  resultGoalsBalance,
+  resEff,
+  resultWins,
+  sortLeaderboard,
 } from '../utils/leaderboarderFunctions';
 
 export default class LeaderboardService {
@@ -25,16 +28,18 @@ export default class LeaderboardService {
 
     const homeMatches = dbTeams.map((team) => ({
       name: team.teamName,
-      totalPoints: (resultPoints(team.id, finishMatches) * 3),
-      totalGames: resultTotalGames(team.id, finishMatches),
-      totalVictories: resultPoints(team.id, finishMatches),
+      totalPoints: (resultPoints(team.id, finishMatches)),
+      totalGames: resultGames(team.id, finishMatches),
+      totalVictories: resultWins(team.id, finishMatches),
       totalDraws: resultDraws(team.id, finishMatches),
       totalLosses: resultLosses(team.id, finishMatches),
       goalsFavor: resultGoalsFavor(team.id, finishMatches),
       goalsOwn: resultGoalsOwn(team.id, finishMatches),
+      goalsBalance: resultGoalsBalance(team.id, finishMatches),
+      efficiency: resEff(team.id, finishMatches),
     }));
 
-    const order = orderLeaderboard(homeMatches);
+    const order = sortLeaderboard(homeMatches);
 
     return { status: 'SUCCESSFUL', data: order };
   }
