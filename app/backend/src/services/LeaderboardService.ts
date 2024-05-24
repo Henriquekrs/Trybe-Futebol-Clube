@@ -15,7 +15,10 @@ import {
   resultWins,
 } from '../utils/leaderboarderFunctions';
 import { ILeaderboard } from '../Interfaces/ILeaderBoardService';
-import { ServiceResponseSuccess } from '../types/ServiceResponse';
+import {
+  ServiceResponse,
+  ServiceResponseError,
+  ServiceResponseSuccess } from '../types/ServiceResponse';
 
 export default class LeaderboardService {
   constructor(
@@ -40,6 +43,43 @@ export default class LeaderboardService {
       goalsBalance: resultGoalsBalance(team.id, finishMatches, isHome),
       efficiency: resEff(team.id, finishMatches, isHome),
     }));
+
+    const orderedLeaderboard = sortLeaderboard(leaderboard);
+
+    return { status: 'SUCCESSFUL', data: orderedLeaderboard };
+  }
+
+  combineTeamData = (teamHome: ILeaderboard, teamAway: ILeaderboard): ILeaderboard => {
+    const totalPoints = teamHome.totalPoints + teamAway.totalPoints;
+    const totalGames = teamHome.totalGames + teamAway.totalGames;
+    const efficiency = ((totalPoints / (totalGames * 3)) * 100).toFixed(2);
+
+    return {
+      name: teamHome.name,
+      totalPoints,
+      totalGames,
+      totalVictories: teamHome.totalVictories + teamAway.totalVictories,
+      totalDraws: teamHome.totalDraws + teamAway.totalDraws,
+      totalLosses: teamHome.totalLosses + teamAway.totalLosses,
+      goalsFavor: teamHome.goalsFavor + teamAway.goalsFavor,
+      goalsOwn: teamHome.goalsOwn + teamAway.goalsOwn,
+      goalsBalance: teamHome.goalsBalance + teamAway.goalsBalance,
+      efficiency,
+    };
+  };
+
+  async getLeaderboardAll(): Promise<ServiceResponse<ILeaderboard[]> | ServiceResponseError> {
+    const dbHome = await this.getLeaderboard(true);
+    const dbAway = await this.getLeaderboard(false);
+    const dbTeams = await this.teamModel.getAll();
+
+    const leaderboard = dbTeams.map((team) => {
+      const teamHomeF: any = dbHome.data.find((teamHome) => teamHome.name === team.teamName);
+      const teamAwayF: any = dbAway.data.find((teamAway) => teamAway.name === team.teamName);
+
+      const leaderboardAll = this.combineTeamData(teamHomeF, teamAwayF);
+      return leaderboardAll;
+    });
 
     const orderedLeaderboard = sortLeaderboard(leaderboard);
 
