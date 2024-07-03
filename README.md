@@ -4,7 +4,7 @@
 ## Do que se trata esse projeto
 
 
-Este projeto foi desenvolvido durante minha formação no módulo de back-end na Trybe. Esta e uma aplicação full-stack a proposta de ser um site de informações de jogos de futebol. A aplicação tem dois tipos de acesso, o usuário e possível ver a tabela de jogos, tabela de classificação, ver jogos em andamento e finalizados e seu placar, filtrar por jogos em casa ou fora. O administrador todos os poderes de usuário e mais como adicionar partidas, alterar o placar e finalizar partidas em andamento. Como projeto de módulo back-end da Trybe fui responsável por toda configuração de Dockerfile para usar os serviços de back-end, front-end e banco de dados de forma simultânea. Fui responsável por toda a construção do back-end da aplicação utilizando as mais diversas ferramentas para dar funcionalidade ao front-end.
+Este projeto foi desenvolvido durante minha formação no módulo de back-end na [Trybe](https://www.betrybe.com/). Esta e uma aplicação full-stack a proposta de ser um site de informações de jogos de futebol. A aplicação tem dois tipos de acesso, o usuário e possível ver a tabela de jogos, tabela de classificação, ver jogos em andamento e finalizados e seu placar, filtrar por jogos em casa ou fora. O administrador todos os poderes de usuário e mais como adicionar partidas, alterar o placar e finalizar partidas em andamento. Como projeto de módulo back-end da Trybe fui responsável por toda configuração de Dockerfile para usar os serviços de back-end, front-end e banco de dados de forma simultânea. Fui responsável por toda a construção do back-end da aplicação utilizando as mais diversas ferramentas para dar funcionalidade ao front-end.
 
 ## Principais linguagens e tecnologias utilizadas
 
